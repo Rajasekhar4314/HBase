@@ -1,1 +1,22 @@
+## Start hbase shell
 hbase shell
+
+## list out tables
+list
+
+## status checking
+status
+
+### check version
+version
+
+## Table Help
+table_help
+
+### Checking
+whoami
+
+## Create table
+create "customer1", "address", "order"
+
+
