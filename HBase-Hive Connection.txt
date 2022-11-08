@@ -1,0 +1,56 @@
+## Create Hbase table
+
+Create ‘test_flight_delays’,’dims’,’measures’
+
+## Create a file in cloudera.
+
+Vi testdata_hbase.CSV
+1, ‘hyd’,25000
+2, ‘blr’, 30000
+
+
+## Create Hive table
+
+CREATE EXTERNAL TABLE IF not exists hbase_flight_delays
+(key string,
+carrier string,
+distance int
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES
+("hbase.columns.mapping"=":key,dims:carrier,measures:distance")
+TBLPROPERTIES("hbase.table.name"="test_flight_delays")
+;
+
+## Create another Hive stage table to dump
+
+CREATE EXTERNAL TABLE IF not exists hbase_stg_flight_delays
+(key string,
+carrier string,
+distance int
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+;
+
+## Loading the data into a stage table.
+
+Load data local inpath ‘/home/cloudera/testdata_hbase.CSV’ into table hbase_stg_flight_delays;
+
+
+## Insert the data from stage table to main hive table
+
+insert into table hbase_flght_delays select * from hbase_stg_flight_delays;
+
+## Querying data
+Select * from hbase_flight_delays
+
+## Put the data into the hbase table.
+
+Put ‘test_flight_delays’ , ‘5’, ‘dims:carrier’, ‘mycarfromhbase’
+
+
+
+
