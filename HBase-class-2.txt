@@ -20,3 +20,103 @@ whoami
 create "customer1", "address", "order"
 
 
+table_help
+
+create 'customer2', 'address', 'order'
+
+list
+
+## Insert data into table customer2 raja key
+
+put 'customer2', 'raja', 'address:city', 'Hyderabad'
+put 'customer2', 'raja', 'address:state', 'Andhra pradesh'
+put 'customer2', 'raja', 'address:street', 'Durvesi'
+
+put 'customer2', 'raja', 'order:ord_num', 1
+
+put 'customer2', 'raja', 'order:ord_amount', 1000
+
+## To get specific row 
+get 'customer2', 'raja'
+
+scan "customer2"
+
+put "customer2", "rahul", "address:state", "west bangal"
+
+put "customer2", "rahul", "address:city", "kolkata"
+
+## total rows
+scan "customer2"
+
+## specific command
+get "customer2", "raja", "address"
+
+
+## To drop the table first u need to disable table
+
+disable "customer2"
+drop "customer2"
+
+## To check table available or not
+list
+
+## No data found
+scan
+
+## Enable table
+enable "customer2"
+
+##
+describe "customer2"
+
+## To delete a specific record
+delete "customer2", "raja", "address:email"
+
+## COunt of Rows
+count "customer2"
+
+
+## To find table available or not
+exists "customer2"
+customerr2
+## Tp get perticular value
+get "customer2", "raja", "address:state"
+
+
+put "customer2", "surya", "address:city", "salem"
+scan "customer2" (getting 3 rows)
+delete "customer2", "surya", "address:city", "salem"
+scan "customer2" (getting 2 rows)
+
+## To delete entire column
+alter "customer2", "delete"=> "address"
+
+## create table with version
+create "employee", {NAME => "address", VERSIONS => 2}
+
+## Change the version of table
+alter "employee", NAME => "address", VERSIONS => 5
+
+### Versioning
+
+## giving version to personal and by default school has version 1
+create "student", {NAME => "personal", VERSIONS =>5}, "school"
+
+## changing the version
+alter "student", {NAME => "school", VERSION => 5}
+
+describe "student"
+
+put "student", "1", "personal:name", "raja"
+
+put "student", "1", "personal:name", "rajasekhar"
+
+put "student", "1", "school:name", "xyz"
+
+put "student", "1", "school:name", "xyz_ABC"
+
+## Checking data latest
+scan "student"
+
+## Checking whole data by using Version 
+scan "student", {VERSIONS=>10}
